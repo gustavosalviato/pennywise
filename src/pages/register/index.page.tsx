@@ -36,6 +36,9 @@ export default function Register() {
         username,
         name,
       })
+
+      await router.push('/register/connect')
+      
     } catch (err) {
       alert(err)
     }

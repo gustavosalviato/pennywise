@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/router'
 const ClaimUsernameSchema = z.object({
   username:
-      z.string().min(3, { message: 'Usuário deve conter pelo menos 3 letras' })
+    z.string().min(3, { message: 'Usuário deve conter pelo menos 3 letras' })
       .regex(/^([a-z\\-]+)$/i, {
         message: 'Usuário deve conter apenas letras e hifens',
       }),

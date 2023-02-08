@@ -6,9 +6,10 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
 
 model Users {
   id       String @id @default(uuid())
@@ -19,3 +20,4 @@ model Users {
 
   @@map("users")
 }
+

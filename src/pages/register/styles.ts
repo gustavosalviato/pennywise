@@ -24,6 +24,8 @@ export const Title = styled.p`
 
 export const SubHeading = styled.p`
   margin-top: 0.8rem;
+
+  margin-bottom: 2.4rem;
 `
 
 export const RegisterButton = styled(BasicButton)`
