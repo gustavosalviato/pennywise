@@ -1,13 +1,37 @@
 
+import { PrismaAdapter } from "@/lib/auth/prisma-adapter"
 import NextAuth, { NextAuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
+import { NextApiRequest, NextApiResponse } from 'next'
+import { profile } from "console"
+import { GithubProfile } from 'next-auth/providers/github'
 
-export const authOptions: NextAuthOptions = {
-  providers: [
-    GithubProvider({
-      clientId: process.env.GITHUB_ID ?? '',
-      clientSecret: process.env.GITHUB_SECRET ?? '',
-    }),
-  ],
+export function buildNextAuthOptions(
+  req: NextApiRequest,
+  res: NextApiResponse,
+): NextAuthOptions {
+  return {
+    adapter: PrismaAdapter(req, res),
+    providers: [
+      GithubProvider({
+        clientId: process.env.GITHUB_ID ?? '',
+        clientSecret: process.env.GITHUB_SECRET ?? '',
+
+        profile(profile: GithubProfile) {
+          return {
+            id: profile.id,
+            avatar_url: profile.avatar_url,
+            email: profile.email!,
+            name: profile.name!,
+            username: '',
+          }
+        }
+      }),
+
+    ],
+  }
+
 }
-export default NextAuth(authOptions)
+export default async function auth(req: NextApiRequest, res: NextApiResponse) {
+  return await NextAuth(req, res, buildNextAuthOptions(req, res))
+}
