@@ -2,8 +2,6 @@ import { prisma } from '@/lib/prisma'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import * as z from 'zod'
 import { setCookie } from 'nookies'
-import { use } from 'react'
-
 
 const UserBodyType = z.object({
   name: z.string(),

@@ -49,6 +49,12 @@ export const ButtonLogin = styled(BasicButton)`
     color: ${props => props.theme.white};
   }
 
+  &:disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+
 `
 
 interface ButtonNextStepProps {

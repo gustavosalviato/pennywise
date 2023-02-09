@@ -1,8 +1,23 @@
 import { Box } from "@/components/Box";
 import { ButtonNextStep, Container, SubHeading, BoxItem, ButtonLogin } from "./styles";
-import { GitPullRequest, ArrowRight } from 'phosphor-react'
+import { ArrowRight } from 'phosphor-react'
 import { FaGithub } from 'react-icons/fa'
+import { signIn, useSession } from 'next-auth/react'
+
 export default function Connect() {
+
+  const session = useSession()
+
+  console.log(session)
+
+
+  async function handleSignInGitHub() {
+    await signIn('github')
+  }
+
+  const isSignedIn = session.status === 'authenticated'
+
+
   return (
     <Container>
       <h2>Conecte-se sua conta</h2>
@@ -10,18 +25,36 @@ export default function Connect() {
 
       <Box>
         <BoxItem>
-          <p>GitHub</p>
+          <p>Github</p>
 
-          <ButtonLogin>
-            <FaGithub  size={20} />
-            Conectar
-          </ButtonLogin>
+          {isSignedIn ? (
+            <ButtonLogin disabled>
+              <FaGithub size={20} />
+              Conectado
+            </ButtonLogin>
+          ) : (
+            <ButtonLogin
+              onClick={handleSignInGitHub}
+            >
+              <FaGithub size={20} />
+              Conectar
+            </ButtonLogin>
+          )
+          }
         </BoxItem>
 
-        <ButtonNextStep variant="primary" >
-          Próximo passo
-          <ArrowRight size={20} />
-        </ButtonNextStep>
+        {isSignedIn ? (
+          <ButtonNextStep variant="primary" >
+            Próximo passo
+            <ArrowRight size={20} />
+          </ButtonNextStep>
+        ) : (
+          <ButtonNextStep variant="tertiary" disabled={!isSignedIn} >
+            Próximo passo
+            <ArrowRight size={20} />
+          </ButtonNextStep>
+        )}
+
       </Box>
     </Container>
   )
