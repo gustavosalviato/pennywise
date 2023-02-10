@@ -2,7 +2,7 @@ import { BasicButton } from "@/layouts/BasicButton";
 import styled from "styled-components";
 
 export const HeaderContainer = styled.header`
-  background-color: ${props => props.theme["gray-800"]};
+  background-color: ${props => props.theme["gray-900"]};
   padding: 6.4rem 0 8.0rem;
 `
 
