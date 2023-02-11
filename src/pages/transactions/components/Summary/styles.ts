@@ -7,8 +7,9 @@ export const SummaryContainer = styled.section`
   max-width: 1120px;
   margin: 0 auto;
   gap: 3.2rem;
+  padding: 1.6rem;
 
-  margin-top: calc(-8rem / 2);
+  margin-top: -5rem;
 
 `
 
