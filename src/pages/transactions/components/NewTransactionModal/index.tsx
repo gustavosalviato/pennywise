@@ -2,10 +2,11 @@ import { InputText } from '@/components/InputText'
 import * as Dialog from '@radix-ui/react-dialog'
 import { Content, Overlay, Title, SubmitButton, RadioItem, RadioContainer } from './styles'
 import { FiArrowUpCircle, FiArrowDownCircle } from 'react-icons/fi'
-import { SelectCategory } from '../SelectCategory'
 import { useForm, Controller } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+
+import { UseTransactionContext } from '@/context/TransactionsContext'
 
 const NewTransactionSchema = z.object({
   title: z.string().min(3),
@@ -20,8 +21,16 @@ export function NewTransactionModal() {
     resolver: zodResolver(NewTransactionSchema)
   })
 
+  const { addNewTransaction } = UseTransactionContext()
+
   async function handleNewTransaction(data: NewTransactionFormData) {
-    console.log(data)
+
+    const newTransaction = {
+      ...data,
+      created_at: new Date()
+    }
+
+    addNewTransaction(newTransaction)
   }
 
   return (
@@ -65,7 +74,12 @@ export function NewTransactionModal() {
               )
             }}
           />
-          <SubmitButton type="submit">Cadastrar</SubmitButton>
+          <SubmitButton
+            type="submit"
+            disabled={isSubmitting}
+          >
+            Cadastrar
+          </SubmitButton>
         </form>
 
       </Content>
