@@ -26,4 +26,3 @@ export const ButtonNewTransaction = styled(BasicButton)`
     background-color: ${props => props.theme["blue-600"]};
   }
 `
-

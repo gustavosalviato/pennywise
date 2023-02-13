@@ -102,3 +102,29 @@ export const ErrorMessage = styled.p`
   color: ${props => props.theme["red-300"]} !important;
   font-size: 1.4rem;
 `
+
+
+export const CloseModal = styled(Dialog.Close)`
+  all: unset;
+  font-size: 0;
+  position: absolute;
+  cursor: pointer;
+  border-radius: 6px;
+
+  transition: filter 0.3s;
+
+  width: 2.4rem;
+  height: 2.4rem;
+  top: 2.4rem;
+  right: 2.4rem;
+
+  svg{
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+
+  &:hover{
+    filter: brightness(0.8);
+  }
+`
