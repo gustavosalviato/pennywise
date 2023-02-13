@@ -25,10 +25,20 @@ export function buildNextAuthOptions(
             name: profile.name!,
             username: '',
           }
-        }
+        },
+      
       }),
 
     ],
+
+    callbacks:{
+      session({session, user}){
+        return {
+          ...session,
+          user
+        }
+      }
+    }
   }
 
 }

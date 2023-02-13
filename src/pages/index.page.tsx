@@ -12,9 +12,9 @@ export default function Home() {
 
   const isSignedIn = session.status === "authenticated"
 
-  if (isSignedIn) {
-    router.push('/transactions')
-  }
+  // if (isSignedIn) {
+  //   router.push('/transactions')
+  // }
 
   return (
     <HomeContainer>
