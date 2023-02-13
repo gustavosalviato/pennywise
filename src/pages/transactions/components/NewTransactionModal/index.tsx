@@ -1,6 +1,6 @@
 import { InputText } from '@/components/InputText'
 import * as Dialog from '@radix-ui/react-dialog'
-import { Content, Overlay, Title, SubmitButton, RadioItem, RadioContainer } from './styles'
+import { Content, Overlay, Title, SubmitButton, RadioItem, RadioContainer, ErrorMessage } from './styles'
 import { FiArrowUpCircle, FiArrowDownCircle } from 'react-icons/fi'
 import { useForm, Controller } from 'react-hook-form'
 import * as z from 'zod'
@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { UseTransactionContext } from '@/context/TransactionsContext'
 
 const NewTransactionSchema = z.object({
-  title: z.string().min(3),
+  title: z.string().min(3, { message: 'Título deve conter pelo menos 3 caracteres' }),
   price: z.string()
     .transform((value) => Number(value)),
   transactionType: z.enum(['income', 'outcome'])
@@ -17,7 +17,7 @@ const NewTransactionSchema = z.object({
 
 type NewTransactionFormData = z.infer<typeof NewTransactionSchema>
 export function NewTransactionModal() {
-  const { register, formState: { isSubmitting, errors }, handleSubmit, control } = useForm<NewTransactionFormData>({
+  const { register, formState: { isSubmitting, errors }, handleSubmit, control ,reset } = useForm<NewTransactionFormData>({
     resolver: zodResolver(NewTransactionSchema)
   })
 
@@ -31,12 +31,14 @@ export function NewTransactionModal() {
     }
 
     addNewTransaction(newTransaction)
+
+
+    reset()
   }
 
   return (
     <Dialog.Portal>
       <Overlay />
-
       <Content>
 
         <form onSubmit={handleSubmit(handleNewTransaction)}>
@@ -45,6 +47,8 @@ export function NewTransactionModal() {
           <label>
             <p>Descrição</p>
             <InputText type="text" {...register('title')} />
+
+            {errors.title && (<ErrorMessage>{errors.title.message}</ErrorMessage>)}
           </label>
 
           <label>
