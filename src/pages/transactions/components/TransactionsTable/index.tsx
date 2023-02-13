@@ -5,6 +5,14 @@ import { priceFormatter } from '../../../../helpers/price-formatter'
 
 export function TransactionsTable() {
   const { transactions } = UseTransactionContext()
+
+  const transactionsFormatted = transactions.map((transaction) => {
+    return {
+      ...transaction,
+      dateFormatted: dateFormatter.format(transaction.created_at),
+      priceFormatted: priceFormatter.format(transaction.price),
+    }
+  })
   return (
     <TransactionsTableContainer>
       <thead>
@@ -17,16 +25,16 @@ export function TransactionsTable() {
       </thead>
 
       <tbody>
-        {transactions.map((transaction) => {
+        {transactionsFormatted.map((transaction) => {
           return (
             <tr key={String(transaction.created_at)}>
-              <td>{dateFormatter.format(transaction.created_at)}</td>
+              <td>{transaction.dateFormatted}</td>
 
               <td>{transaction.title}</td>
 
               <td>
                 <PriceHighLight variant={transaction.transactionType}>
-                  {priceFormatter.format(transaction.price)}
+                  {transaction.priceFormatted}
                 </PriceHighLight>
               </td>
 

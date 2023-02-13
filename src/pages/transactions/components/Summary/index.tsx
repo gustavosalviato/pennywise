@@ -1,6 +1,45 @@
 import { SummaryContainer, SummaryItem } from "./styles";
 import { FiDollarSign, FiCornerRightDown, FiCornerRightUp } from 'react-icons/fi'
+import { UseTransactionContext } from "@/context/TransactionsContext";
+import { priceFormatter } from "@/helpers/price-formatter";
+import { useMemo } from "react";
+import { dateFormatter } from "@/helpers/date-formatter";
+import { FiCalendar } from 'react-icons/fi'
+
 export function Summary() {
+
+  const { transactions } = UseTransactionContext()
+
+  const transactionsIncome = transactions.filter((transaction) => {
+    return transaction.transactionType === 'income'
+  })
+
+  const lastDateIncome = transactionsIncome.pop()
+
+
+  const transactionsOutcome = transactions.filter((transaction) => {
+    return transaction.transactionType === 'outcome'
+  })
+
+  const lastDateOutcome = transactionsOutcome.pop()
+
+  const summary = useMemo(() => {
+    return transactions.reduce((acc, transaction) => {
+      if (transaction.transactionType === 'income') {
+        acc.income += transaction.price
+        acc.total += transaction.price
+      } else {
+        acc.outcome += transaction.price
+        acc.total -= transaction.price
+      }
+      return acc
+    }, {
+      income: 0,
+      outcome: 0,
+      total: 0,
+    })
+  }, [transactions])
+
   return (
     <SummaryContainer>
       <SummaryItem>
@@ -14,10 +53,17 @@ export function Summary() {
 
         </header>
 
-        <strong>R$ 3.0000,00</strong>
+        <strong>{priceFormatter.format(summary.income)}</strong>
 
         <footer>
-          <p>ultima entrada 16 de abril</p>
+          {lastDateIncome?.created_at ?
+            (
+              <p>{`Última entrada em: ${dateFormatter.format(lastDateIncome.created_at)}`}</p>
+            ) : (
+              <p>{`Última entrada em:`}</p>
+            )
+
+          }
         </footer>
       </SummaryItem>
 
@@ -32,14 +78,21 @@ export function Summary() {
 
         </header>
 
-        <strong>R$ 3.0000,00</strong>
+        <strong>{priceFormatter.format(summary.outcome)}</strong>
 
         <footer>
-          <p>ultima ent ada 16 de abril</p>
+          {lastDateOutcome?.created_at ?
+            (
+              <p>{`Última entrada em: ${dateFormatter.format(lastDateOutcome.created_at)}`}</p>
+            ) : (
+              <p>{`Última entrada em:`}</p>
+            )
+
+          }
         </footer>
       </SummaryItem>
 
-      <SummaryItem>
+      <SummaryItem ShowTotal>
         <header>
           <p>Total</p>
 
@@ -49,10 +102,13 @@ export function Summary() {
           />
         </header>
 
-        <strong>R$ 3.0000,00</strong>
+        <strong>{priceFormatter.format(summary.total)}</strong>
 
         <footer>
-          <p>ultima entrada 16 de abril</p>
+          <span>
+            {dateFormatter.format(new Date())}
+            <FiCalendar size={20} />
+          </span>
         </footer>
       </SummaryItem>
     </SummaryContainer>

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const SummaryContainer = styled.section`
   display: flex;
@@ -9,11 +9,15 @@ export const SummaryContainer = styled.section`
   gap: 3.2rem;
   padding: 1.6rem;
 
-  margin-top: -5rem;
+  margin-top: -6rem;
 
 `
 
-export const SummaryItem = styled.div`  
+interface SummaryItemProps {
+  ShowTotal?: boolean
+}
+
+export const SummaryItem = styled.div<SummaryItemProps>`
   display: flex;
   flex-direction: column;
   background-color: ${props => props.theme["gray-600"]};
@@ -36,8 +40,27 @@ export const SummaryItem = styled.div`
     margin-top: 1.2rem;
   }
 
-  footer p {
-    margin-top: 0.8rem;
-    color: ${props => props.theme["gray-400"]};;
+  footer {
+    margin-top: 1.6rem;
+    p {
+     
+     color: ${props => props.theme["gray-400"]};
+   }
+
+   span{
+      display:flex;
+      align-items: center;
+      gap: 0.8rem;
+
+      color: ${props => props.theme.white};
+    }
+
   }
+
+
+${props => props.ShowTotal && css`
+  background-color: ${props => props.theme["blue-700"]};  
+  
+`};
+
 `
