@@ -4,7 +4,8 @@ interface ITransactions {
   title: string,
   price: number,
   transactionType: 'income' | 'outcome',
-  created_at: Date
+  created_at: Date,
+  category: string,
 }
 
 interface TransactionsContextType {
@@ -16,6 +17,7 @@ interface NewTransaction {
   title: string,
   price: number,
   transactionType: 'income' | 'outcome',
+  category: string,
 }
 
 export const TransactionsContext = createContext({} as TransactionsContextType)

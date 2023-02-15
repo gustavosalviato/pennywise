@@ -9,10 +9,21 @@ import { FiX } from 'react-icons/fi'
 import { UseTransactionContext } from '@/context/TransactionsContext'
 
 const NewTransactionSchema = z.object({
-  title: z.string().min(3, { message: 'Título deve conter pelo menos 3 caracteres' }),
+  title: z.string()
+    .min(3, { message: 'Título deve conter pelo menos 3 caracteres' })
+    .regex(/^[a-zA-Z\u00C0-\u00FF]*$/, {
+      message: 'Título deve conter apenas letras',
+    }),
   price: z.string()
     .transform((value) => Number(value)),
-  transactionType: z.enum(['income', 'outcome'])
+  transactionType: z.enum(['income', 'outcome']),
+
+  category: z.string()
+    .min(3, { message: 'Categoria deve conter pelo menos 3 caracteres' })
+    .regex(/^[a-zA-Z\u00C0-\u00FF]*$/, {
+      message: 'Título deve conter apenas letras',
+    }),
+
 })
 
 type NewTransactionFormData = z.infer<typeof NewTransactionSchema>
@@ -51,14 +62,22 @@ export function NewTransactionModal() {
           <label>
             <p>Descrição</p>
             <InputText type="text" {...register('title')} />
-
-            {errors.title && (<ErrorMessage>{errors.title.message}</ErrorMessage>)}
           </label>
+
+          {errors.title && (<ErrorMessage>{errors.title.message}</ErrorMessage>)}
 
           <label>
             <p>Valor</p>
             <InputText type="number"  {...register('price')} />
           </label>
+
+          <label>
+            <p>Categoria</p>
+            <InputText type="text"  {...register('category')} />
+          </label>
+
+          {errors.category && (<ErrorMessage>{errors.category.message}</ErrorMessage>)}
+
 
           {/* <SelectCategory /> */}
 

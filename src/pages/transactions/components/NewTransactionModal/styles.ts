@@ -29,8 +29,8 @@ export const Content = styled(Dialog.Content)`
     label  {
      > p{
         color: ${props => props.theme.white};
-        margin-bottom: 0.8rem;
-        margin-top: 0.8rem;
+        margin-bottom: 0.4rem;
+        margin-top: 0.4rem;
       }
     }
 
@@ -98,7 +98,6 @@ export const RadioItem = styled(RadioGroup.Item) <RadioItemProps>`
 
 
 export const ErrorMessage = styled.p`
-  
   color: ${props => props.theme["red-300"]} !important;
   font-size: 1.4rem;
 `

@@ -20,7 +20,7 @@ export function TransactionsTable() {
           <th>Data</th>
           <th>Descrição</th>
           <th>Valor</th>
-          {/* <th>Categoria</th> */}
+          <th>Categoria</th>
         </tr>
       </thead>
 
@@ -38,13 +38,10 @@ export function TransactionsTable() {
                 </PriceHighLight>
               </td>
 
-              {/* <td>Alimentação</td> */}
+              <td>{transaction.category}</td>
             </tr>
           )
         })}
-
-
-
       </tbody>
     </TransactionsTableContainer>
   )
