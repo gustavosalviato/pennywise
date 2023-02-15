@@ -19,20 +19,20 @@ export function buildNextAuthOptions(
 
         profile(profile: GithubProfile) {
           return {
-            id: profile.id,
+            id: String(profile.id),
             avatar_url: profile.avatar_url,
             email: profile.email!,
             name: profile.name!,
             username: '',
           }
         },
-      
+
       }),
 
     ],
 
-    callbacks:{
-      session({session, user}){
+    callbacks: {
+      session({ session, user }) {
         return {
           ...session,
           user

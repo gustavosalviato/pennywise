@@ -5,16 +5,18 @@ import Image from 'next/image'
 import { ClaimUserNameForm } from "@/components/ClaimUserNameForm";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/router'
+import { useEffect } from "react";
 export default function Home() {
 
   const session = useSession()
+
   const router = useRouter()
-
-  const isSignedIn = session.status === "authenticated"
-
-  // if (isSignedIn) {
-  //   router.push('/transactions')
-  // }
+  
+  useEffect(() => {
+    if (session.data?.user) {
+      router.push(`/transactions/${session.data.user.username}`)
+    }
+  }, [session?.data?.user.username])
 
   return (
     <HomeContainer>
