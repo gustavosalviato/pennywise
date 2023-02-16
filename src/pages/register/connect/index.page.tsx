@@ -21,8 +21,6 @@ export default function Connect() {
     event.preventDefault()
     await router.push(`/transactions/${session.data?.user.username}`)
   }
-
-
   return (
     <Container>
       <h2>Conecte-se sua conta</h2>
@@ -52,7 +50,7 @@ export default function Connect() {
           <ButtonNextStep
             variant="primary"
           >
-            Próximo passo aaaaad
+            Próximo passo
             <ArrowRight size={20} />
           </ButtonNextStep>
         ) : (

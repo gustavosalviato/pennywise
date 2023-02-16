@@ -11,25 +11,24 @@ export function Summary() {
   const { transactions } = UseTransactionContext()
 
   const transactionsIncome = transactions.filter((transaction) => {
-    return transaction.transactionType === 'income'
+    return transaction.type === 'income'
   })
 
   const lastDateIncome = transactionsIncome.pop()
 
-
   const transactionsOutcome = transactions.filter((transaction) => {
-    return transaction.transactionType === 'outcome'
+    return transaction.type === 'outcome'
   })
 
   const lastDateOutcome = transactionsOutcome.pop()
 
   const summary = useMemo(() => {
     return transactions.reduce((acc, transaction) => {
-      if (transaction.transactionType === 'income') {
+      if (transaction.type === 'income') {
         acc.income += transaction.price
         acc.total += transaction.price
       } else {
-        acc.outcome += transaction.price
+        acc.outcome = acc.outcome + transaction.price
         acc.total -= transaction.price
       }
       return acc
@@ -39,6 +38,7 @@ export function Summary() {
       total: 0,
     })
   }, [transactions])
+
 
   return (
     <SummaryContainer>
@@ -58,7 +58,7 @@ export function Summary() {
         <footer>
           {lastDateIncome?.created_at ?
             (
-              <p>{`Última entrada em: ${dateFormatter.format(lastDateIncome.created_at)}`}</p>
+              <p>{`Última entrada em: ${dateFormatter.format(new Date(lastDateIncome.created_at))}`}</p>
             ) : (
               <p>{`Última entrada em:`}</p>
             )
@@ -83,7 +83,7 @@ export function Summary() {
         <footer>
           {lastDateOutcome?.created_at ?
             (
-              <p>{`Última entrada em: ${dateFormatter.format(lastDateOutcome.created_at)}`}</p>
+              <p>{`Última entrada em: ${dateFormatter.format(new Date(lastDateOutcome.created_at))}`}</p>
             ) : (
               <p>{`Última entrada em:`}</p>
             )

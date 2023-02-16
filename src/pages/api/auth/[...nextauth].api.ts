@@ -2,13 +2,12 @@
 import { PrismaAdapter } from "@/lib/auth/prisma-adapter"
 import NextAuth, { NextAuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github"
-import { NextApiRequest, NextApiResponse } from 'next'
-import { profile } from "console"
+import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
 import { GithubProfile } from 'next-auth/providers/github'
 
 export function buildNextAuthOptions(
-  req: NextApiRequest,
-  res: NextApiResponse,
+  req: NextApiRequest | NextPageContext['req'],
+  res: NextApiResponse | NextPageContext['res'],
 ): NextAuthOptions {
   return {
     adapter: PrismaAdapter(req, res),

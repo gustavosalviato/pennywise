@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id       String  @id @default(uuid())
-  username String  @unique
-  name     String
-  email    String? @unique
-  avatar_url   String?
+  id         String  @id @default(uuid())
+  username   String  @unique
+  name       String
+  email      String? @unique
+  avatar_url String?
 
   created_at DateTime @default(now())
 
-  accounts Account[]
-  sessions Session[]
+  accounts     Account[]
+  sessions     Session[]
+  transactions Transaction[]
 
   @@map("users")
 }
@@ -42,7 +43,6 @@ model Account {
   user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@unique([provider, provider_account_id])
-
   @@map("accounts")
 }
 
@@ -62,6 +62,24 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-
   @@map("verifcation_tokens")
+}
+
+model Category {
+  id          String        @id @default(uuid())
+  title       String        @unique
+  Transaction Transaction[]
+}
+
+model Transaction {
+  id          String   @id @default(uuid())
+  title       String
+  price       Decimal
+  type        String
+  created_at  DateTime
+  user_id     String
+  category_id String
+
+  category Category @relation(fields: [category_id], references: [id])
+  user     User     @relation(fields: [user_id], references: [id])
 }

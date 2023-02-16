@@ -9,7 +9,7 @@ export function TransactionsTable() {
   const transactionsFormatted = transactions.map((transaction) => {
     return {
       ...transaction,
-      dateFormatted: dateFormatter.format(transaction.created_at),
+      dateFormatted: dateFormatter.format(new Date(transaction.created_at)).toString(),
       priceFormatted: priceFormatter.format(transaction.price),
     }
   })
@@ -27,18 +27,18 @@ export function TransactionsTable() {
       <tbody>
         {transactionsFormatted.map((transaction) => {
           return (
-            <tr key={String(transaction.created_at)}>
+            <tr key={transaction.id}>
               <td>{transaction.dateFormatted}</td>
 
               <td>{transaction.title}</td>
 
               <td>
-                <PriceHighLight variant={transaction.transactionType}>
+                <PriceHighLight variant={transaction.type}>
                   {transaction.priceFormatted}
                 </PriceHighLight>
               </td>
 
-              <td>{transaction.category}</td>
+              <td>{transaction.category_title}</td>
             </tr>
           )
         })}

@@ -1,12 +1,12 @@
-/*
-  Warnings:
-
-  - A unique constraint covering the columns `[email]` on the table `users` will be added. If there are existing duplicate values, this will fail.
-
-*/
--- AlterTable
-ALTER TABLE "users" ADD COLUMN "email" TEXT;
-ALTER TABLE "users" ADD COLUMN "image" TEXT;
+-- CreateTable
+CREATE TABLE "users" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "username" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "email" TEXT,
+    "avatar_url" TEXT,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 -- CreateTable
 CREATE TABLE "accounts" (
@@ -41,6 +41,31 @@ CREATE TABLE "verifcation_tokens" (
     "expires" DATETIME NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "Category" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "Transaction" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "price" DECIMAL NOT NULL,
+    "type" TEXT NOT NULL,
+    "created_at" DATETIME NOT NULL,
+    "user_id" TEXT NOT NULL,
+    "category_id" TEXT NOT NULL,
+    CONSTRAINT "Transaction_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "Category" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "Transaction_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
 -- CreateIndex
 CREATE UNIQUE INDEX "accounts_provider_provider_account_id_key" ON "accounts"("provider", "provider_account_id");
 
@@ -54,4 +79,4 @@ CREATE UNIQUE INDEX "verifcation_tokens_token_key" ON "verifcation_tokens"("toke
 CREATE UNIQUE INDEX "verifcation_tokens_identifier_token_key" ON "verifcation_tokens"("identifier", "token");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+CREATE UNIQUE INDEX "Category_title_key" ON "Category"("title");

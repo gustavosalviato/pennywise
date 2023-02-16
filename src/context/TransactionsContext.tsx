@@ -1,23 +1,27 @@
-import { createContext, ReactNode, useContext, useState } from 'react'
+import { api } from '@/lib/axios'
+import { createContext, ReactNode, useCallback, useContext, useState } from 'react'
 
 interface ITransactions {
+  id: string
   title: string,
   price: number,
-  transactionType: 'income' | 'outcome',
+  type: 'income' | 'outcome',
   created_at: Date,
-  category: string,
+  category_title: string,
 }
 
 interface TransactionsContextType {
   transactions: ITransactions[]
+  getTransactions: (username: string) => void
   addNewTransaction: (transaction: NewTransaction) => void
 }
 
 interface NewTransaction {
+  id: string
   title: string,
   price: number,
-  transactionType: 'income' | 'outcome',
-  category: string,
+  type: 'income' | 'outcome',
+  category_title: string,
 }
 
 export const TransactionsContext = createContext({} as TransactionsContextType)
@@ -30,6 +34,13 @@ interface TransactionsContextProviderProps {
 export function TransactionContextProvider({ children }: TransactionsContextProviderProps) {
   const [transactions, setTransactions] = useState<ITransactions[]>([])
 
+
+  const getTransactions = useCallback(async (username: string) => {
+    const response = await api.get(`/transactions/${username}/transaction`)
+    console.log(response.data)
+    setTransactions(response.data)
+  }, [])
+
   async function addNewTransaction(transaction: NewTransaction) {
     const newTransaction = {
       ...transaction,
@@ -39,10 +50,11 @@ export function TransactionContextProvider({ children }: TransactionsContextProv
   }
 
   return (
-    <TransactionsContext.Provider value={{ transactions, addNewTransaction }}>
+    <TransactionsContext.Provider value={{ transactions, addNewTransaction, getTransactions }}>
       {children}
     </TransactionsContext.Provider>
   )
 }
 
 export const UseTransactionContext = () => useContext(TransactionsContext)
+
