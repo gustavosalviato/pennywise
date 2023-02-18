@@ -127,3 +127,30 @@ export const CloseModal = styled(Dialog.Close)`
     filter: brightness(0.8);
   }
 `
+export const Select = styled.select`
+  display: flex;
+  width: 100%;
+  background-color: ${props => props.theme["gray-900"]};
+  padding: 1.2rem 1.4rem;
+  border-radius: 6px;
+  border: 2px solid ${props => props.theme["gray-900"]};;
+  font-size: inherit;
+  color: ${props => props.theme["gray-100"]};
+
+  &:focus{
+    outline: 0;
+    border-color: ${props => props.theme["blue-700"]};;
+  }
+  
+  &:focus-visible{
+    outline: 0;
+  }
+
+
+option{
+  border: 0;
+  background-color: ${props => props.theme["gray-900"]};
+  padding: 1.2rem 1.4rem;
+  border-radius: 6px;
+}
+`

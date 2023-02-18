@@ -37,7 +37,6 @@ export function TransactionContextProvider({ children }: TransactionsContextProv
 
   const getTransactions = useCallback(async (username: string) => {
     const response = await api.get(`/transactions/${username}/transaction`)
-    console.log(response.data)
     setTransactions(response.data)
   }, [])
 
