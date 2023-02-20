@@ -9,7 +9,7 @@ import { FiX } from 'react-icons/fi'
 import { UseTransactionContext } from '@/context/TransactionsContext'
 import { useEffect, useState } from 'react'
 import { api } from '@/lib/axios'
-
+import { useSession } from 'next-auth/react'
 const NewTransactionSchema = z.object({
   title: z.string()
     .min(3, { message: 'Título deve conter pelo menos 3 caracteres' })
@@ -18,7 +18,7 @@ const NewTransactionSchema = z.object({
     }),
   price: z.string()
     .transform((value) => Number(value)),
-  transactionType: z.enum(['income', 'outcome']),
+  type: z.enum(['income', 'outcome']),
   category_id: z.string(),
 })
 
@@ -35,29 +35,20 @@ export function NewTransactionModal() {
 
   const [categories, setCategories] = useState<ICategory[]>([])
 
-
   const { addNewTransaction } = UseTransactionContext()
 
+  const session = useSession()
+  const username = String(session.data?.user.username)
+
   async function handleNewTransaction(data: NewTransactionFormData) {
-    console.log(data)
-
-    const newTransaction = {
-      ...data,
-      created_at: new Date()
-    }
-
-    // addNewTransaction(newTransaction)
-
-
+    addNewTransaction(data, username)
     reset()
   }
 
   async function getCategories() {
     try {
       const response = await api.get('/category')
-
       setCategories(response.data)
-      console.log(response.data)
     } catch (err: any) {
       alert(err.message)
     }
@@ -96,7 +87,7 @@ export function NewTransactionModal() {
             <Select>
               {categories.map((category) => (
                 <option
-                key={category.id}
+                  key={category.id}
                   value={category.id}
                   {...register('category_id')}
                 >
@@ -110,7 +101,7 @@ export function NewTransactionModal() {
 
           <Controller
             control={control}
-            name="transactionType"
+            name="type"
             render={({ field }) => {
               return (
                 <RadioContainer onValueChange={field.onChange} value={field.value}>

@@ -13,15 +13,14 @@ interface ITransactions {
 interface TransactionsContextType {
   transactions: ITransactions[]
   getTransactions: (username: string) => void
-  addNewTransaction: (transaction: NewTransaction) => void
+  addNewTransaction: (transaction: NewTransaction, username: string) => void
 }
 
 interface NewTransaction {
-  id: string
-  title: string,
   price: number,
+  title: string,
   type: 'income' | 'outcome',
-  category_title: string,
+  category_id: string,
 }
 
 export const TransactionsContext = createContext({} as TransactionsContextType)
@@ -40,12 +39,21 @@ export function TransactionContextProvider({ children }: TransactionsContextProv
     setTransactions(response.data)
   }, [])
 
-  async function addNewTransaction(transaction: NewTransaction) {
-    const newTransaction = {
-      ...transaction,
-      created_at: new Date()
+  async function addNewTransaction(transaction: NewTransaction, username: string) {
+    const { category_id, price, title, type } = transaction
+    try {
+      const response = await api.post(`/transactions/${username}/transaction`, {
+        price,
+        title,
+        type,
+        category_id,
+      })
+
+      console.log(response.data)
+      setTransactions((prevState) => [...prevState, response.data])
+    } catch (err) {
+      alert(err)
     }
-    setTransactions((prevState) => [...prevState, newTransaction])
   }
 
   return (

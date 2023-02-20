@@ -1,5 +1,6 @@
+import { Session } from 'inspector'
 import { NextApiRequest, NextApiResponse, NextPageContext } from 'next'
-import { Adapter } from 'next-auth/adapters'
+import { Adapter, AdapterAccount, AdapterSession, AdapterUser, } from 'next-auth/adapters'
 import { parseCookies, destroyCookie } from 'nookies'
 import { prisma } from '../prisma'
 
@@ -80,7 +81,7 @@ export function PrismaAdapter(
         avatar_url: user.avatar_url!,
       }
     },
-    async getUserByAccount({ providerAccountId, provider }) {
+    async getUserByAccount({ provider, providerAccountId, }: Pick<AdapterAccount, "provider" | "providerAccountId">) {
       const account = await prisma.account.findUnique({
         where: {
           provider_provider_account_id: {
@@ -109,7 +110,7 @@ export function PrismaAdapter(
       }
     },
 
-    async updateUser(user) {
+    async updateUser(user: Partial<AdapterUser>) {
       const prismaUser = await prisma.user.update({
         where: {
           id: user.id!,
@@ -131,7 +132,7 @@ export function PrismaAdapter(
       }
     },
 
-    async linkAccount(account) {
+    async linkAccount(account: AdapterAccount) {
       await prisma.account.create({
         data: {
           user_id: account.userId,
@@ -149,7 +150,7 @@ export function PrismaAdapter(
       })
     },
 
-    async createSession({ sessionToken, userId, expires }) {
+    async createSession({ sessionToken, userId, expires }: AdapterSession) {
       await prisma.session.create({
         data: {
           user_id: userId,
@@ -165,7 +166,7 @@ export function PrismaAdapter(
       }
     },
 
-    async getSessionAndUser(sessionToken) {
+    async getSessionAndUser(sessionToken: string) {
       const prismaSession = await prisma.session.findUnique({
         where: {
           session_token: sessionToken,
@@ -198,7 +199,7 @@ export function PrismaAdapter(
       }
     },
 
-    async updateSession({ sessionToken, userId, expires }) {
+    async updateSession({ sessionToken, expires, userId }: Partial<AdapterSession> & Pick<AdapterSession, "sessionToken">) {
       const prismaSession = await prisma.session.update({
         where: {
           session_token: sessionToken,
@@ -216,7 +217,7 @@ export function PrismaAdapter(
       }
     },
 
-    async deleteSession(sessionToken) {
+    async deleteSession(sessionToken: string) {
       await prisma.session.delete({
         where: {
           session_token: sessionToken,
