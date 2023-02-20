@@ -10,6 +10,7 @@ import { UseTransactionContext } from '@/context/TransactionsContext'
 import { useEffect, useState } from 'react'
 import { api } from '@/lib/axios'
 import { useSession } from 'next-auth/react'
+
 const NewTransactionSchema = z.object({
   title: z.string()
     .min(3, { message: 'Título deve conter pelo menos 3 caracteres' })

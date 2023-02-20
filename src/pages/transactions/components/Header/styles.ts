@@ -9,7 +9,6 @@ export const HeaderContainer = styled.header`
 export const HeaderContext = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
   max-width: 1120px;
   margin: 0 auto;
@@ -19,10 +18,27 @@ export const HeaderContext = styled.header`
 
 export const ButtonNewTransaction = styled(BasicButton)`
   background-color: ${props => props.theme["blue-700"]};
-  transition: background 0.2s;
+  transition: all 0.3s;
 
 
   &:hover {
     background-color: ${props => props.theme["blue-600"]};
   }
 `
+export const ButtonNewCategory = styled(BasicButton)`
+  transition: all 0.3s;
+  border: 2px solid transparent;
+
+  &:hover {
+    color: ${props => props.theme["blue-600"]};
+    border-color: ${props => props.theme["blue-600"]};;
+  }
+`
+
+export const ContainerButtons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-left: auto;
+`
+

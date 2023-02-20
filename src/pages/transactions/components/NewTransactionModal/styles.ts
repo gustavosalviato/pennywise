@@ -101,8 +101,6 @@ export const ErrorMessage = styled.p`
   color: ${props => props.theme["red-300"]} !important;
   font-size: 1.4rem;
 `
-
-
 export const CloseModal = styled(Dialog.Close)`
   all: unset;
   font-size: 0;
@@ -127,6 +125,8 @@ export const CloseModal = styled(Dialog.Close)`
     filter: brightness(0.8);
   }
 `
+
+
 export const Select = styled.select`
   display: flex;
   width: 100%;
