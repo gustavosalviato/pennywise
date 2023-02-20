@@ -5,6 +5,7 @@ import { CloseModal, Content, Overlay, SubmitButton, Title, ErrorMessage } from 
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { UseTransactionContext } from '@/context/TransactionsContext'
 const newCategorySchema = z.object({
   title: z.string()
     .min(3, { message: 'Título deve conter pelo menos 3 caracteres' })
@@ -17,17 +18,18 @@ type newCategoryFormData = z.infer<typeof newCategorySchema>
 
 export function NewCategoryModal() {
 
-  const { handleSubmit, formState: { errors, isSubmitting }, register, } = useForm<newCategoryFormData>({
+  const { handleSubmit, formState: { errors, isSubmitting }, register, reset, } = useForm<newCategoryFormData>({
     resolver: zodResolver(newCategorySchema)
   })
 
 
-  async function handleNewCategory(data: newCategoryFormData) {
-    try {
-      console.log(data)
-    } catch {
+  const { addNewCategory } = UseTransactionContext()
 
-    }
+
+  async function handleNewCategory(data: newCategoryFormData) {
+    addNewCategory(data)
+
+    reset()
   }
   return (
     <Dialog.Portal>

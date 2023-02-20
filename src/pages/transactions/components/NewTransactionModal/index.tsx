@@ -34,8 +34,6 @@ export function NewTransactionModal() {
     resolver: zodResolver(NewTransactionSchema)
   })
 
-  const [categories, setCategories] = useState<ICategory[]>([])
-
   const { addNewTransaction } = UseTransactionContext()
 
   const session = useSession()
@@ -46,18 +44,7 @@ export function NewTransactionModal() {
     reset()
   }
 
-  async function getCategories() {
-    try {
-      const response = await api.get('/category')
-      setCategories(response.data)
-    } catch (err: any) {
-      alert(err.message)
-    }
-  }
-
-  useEffect(() => {
-    getCategories()
-  }, [])
+  const { categories } = UseTransactionContext()
 
   return (
     <Dialog.Portal>
@@ -85,20 +72,18 @@ export function NewTransactionModal() {
 
           <label>
             <p>Categoria</p>
-            <Select>
+
+            <Select {...register('category_id')}>
               {categories.map((category) => (
                 <option
-                  key={category.id}
                   value={category.id}
-                  {...register('category_id')}
-                >
+                  key={category.title}>
                   {category.title}
                 </option>
               ))}
             </Select>
-          </label>
 
-          {errors.category_id && (<ErrorMessage>{errors.category_id.message}</ErrorMessage>)}
+          </label>
 
           <Controller
             control={control}
