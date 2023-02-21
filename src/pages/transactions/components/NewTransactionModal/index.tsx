@@ -13,10 +13,7 @@ import { useSession } from 'next-auth/react'
 
 const NewTransactionSchema = z.object({
   title: z.string()
-    .min(3, { message: 'Título deve conter pelo menos 3 caracteres' })
-    .regex(/^[a-zA-Z\u00C0-\u00FF]*$/, {
-      message: 'Título deve conter apenas letras',
-    }),
+    .min(3, { message: 'Título deve conter pelo menos 3 caracteres' }),
   price: z.string()
     .transform((value) => Number(value)),
   type: z.enum(['income', 'outcome']),
