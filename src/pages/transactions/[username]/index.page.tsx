@@ -12,6 +12,7 @@ import { unstable_getServerSession } from "next-auth";
 import { buildNextAuthOptions } from '../../api/auth/[...nextauth].api'
 import { UseTransactionContext } from "@/context/TransactionsContext";
 import { Spinner } from "@/components/Spinner";
+import { NextSeo } from 'next-seo'
 interface ITransactions {
   title: string,
   price: number,
@@ -30,19 +31,22 @@ export default function Transactions() {
   }, [getTransactions, session.data?.user?.username])
 
   return (
-    <StyledTransactions>
-      <Header />
-      <Summary />
+    <>
+      <NextSeo title="Home | PennyWise" noindex />
+      <StyledTransactions>
+        <Header />
+        <Summary />
 
-      <TransactionsContainer>
-        <InputSearch username={session.data?.user.username} />
+        <TransactionsContainer>
+          <InputSearch username={session.data?.user.username} />
 
-        {isLoading ? (
-          <Spinner />
-        ) : <TransactionsTable />}
+          {isLoading ? (
+            <Spinner />
+          ) : <TransactionsTable />}
 
-      </TransactionsContainer>
-    </StyledTransactions>
+        </TransactionsContainer>
+      </StyledTransactions>
+    </>
   )
 }
 

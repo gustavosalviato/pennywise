@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/router'
 import { useEffect } from "react";
 import { api } from '../../lib/axios'
+import { NextSeo } from 'next-seo'
 
 const RegisterFormSchema = z.object({
   name: z.string().min(3, { message: 'Usuário deve conter pelo menos 3 letras' }),
@@ -40,7 +41,7 @@ export default function Register() {
       console.log(reponse.data)
 
       await router.push('/register/connect')
-      
+
     } catch (err) {
       alert(err)
     }
@@ -51,31 +52,35 @@ export default function Register() {
   }, [setValue, router.query.username])
 
   return (
-    <Container>
-      <h2>Bem-vindo ao PennyWise</h2>
-      <SubHeading>Precisamos de algumas informações para criar seu perfil! Ah, você pode editar essas informações depois.</SubHeading>
+    <>
+      <NextSeo title="Crie uma conta | PennyWise" />
 
-      <Box onSubmit={handleSubmit(handleRegisterForm)}>
-        <label>
-          <Title>Nome do usuário</Title>
-          <InputText
-            prefix="pennywise.me/"
-            {...register("username")}
-          />
-          {errors.username && <FormErrorMessage>{errors.username.message}</FormErrorMessage>}
-        </label>
+      <Container>
+        <h2>Bem-vindo ao PennyWise</h2>
+        <SubHeading>Precisamos de algumas informações para criar seu perfil! Ah, você pode editar essas informações depois.</SubHeading>
 
-        <label>
-          <Title>Nome completo</Title>
-          <InputText
-            {...register("name")}
-          />
-          {errors.name && <FormErrorMessage>{errors.name.message}</FormErrorMessage>}
+        <Box onSubmit={handleSubmit(handleRegisterForm)}>
+          <label>
+            <Title>Nome do usuário</Title>
+            <InputText
+              prefix="pennywise.me/"
+              {...register("username")}
+            />
+            {errors.username && <FormErrorMessage>{errors.username.message}</FormErrorMessage>}
+          </label>
 
-        </label>
+          <label>
+            <Title>Nome completo</Title>
+            <InputText
+              {...register("name")}
+            />
+            {errors.name && <FormErrorMessage>{errors.name.message}</FormErrorMessage>}
 
-        <RegisterButton type="submit">Proximo passo</RegisterButton>
-      </Box>
-    </Container>
+          </label>
+
+          <RegisterButton type="submit">Proximo passo</RegisterButton>
+        </Box>
+      </Container>
+    </>
   )
 } 

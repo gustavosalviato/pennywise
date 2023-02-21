@@ -5,6 +5,7 @@ import { FaGithub } from 'react-icons/fa'
 import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { FormEvent } from "react";
+import { NextSeo } from 'next-seo'
 export default function Connect() {
 
   const session = useSession()
@@ -22,49 +23,53 @@ export default function Connect() {
     await router.push(`/transactions/${session.data?.user.username}`)
   }
   return (
-    <Container>
-      <h2>Conecte-se sua conta</h2>
-      <SubHeading>Para garantir segurança e proteção do seus dados. Recomendamos que faça autenticação com os provedores que temos disponíveis.  </SubHeading>
+    <>
 
-      <Box onSubmit={handleGoToTransactions}>
-        <BoxItem>
-          <p>Github</p>
+      <NextSeo title="Conecte sua conta com o Github | PennyWise" noindex />
+      <Container>
+        <h2>Conecte-se sua conta</h2>
+        <SubHeading>Para garantir segurança e proteção do seus dados. Recomendamos que faça autenticação com os provedores que temos disponíveis.  </SubHeading>
+
+        <Box onSubmit={handleGoToTransactions}>
+          <BoxItem>
+            <p>Github</p>
+
+            {isSignedIn ? (
+              <ButtonLogin disabled>
+                <FaGithub size={20} />
+                Conectado
+              </ButtonLogin>
+            ) : (
+              <ButtonLogin
+                onClick={handleSignInGitHub}
+              >
+                <FaGithub size={20} />
+                Conectar
+              </ButtonLogin>
+            )
+            }
+          </BoxItem>
 
           {isSignedIn ? (
-            <ButtonLogin disabled>
-              <FaGithub size={20} />
-              Conectado
-            </ButtonLogin>
-          ) : (
-            <ButtonLogin
-              onClick={handleSignInGitHub}
+            <ButtonNextStep
+              variant="primary"
             >
-              <FaGithub size={20} />
-              Conectar
-            </ButtonLogin>
-          )
-          }
-        </BoxItem>
+              Próximo passo
+              <ArrowRight size={20} />
+            </ButtonNextStep>
+          ) : (
+            <ButtonNextStep
+              variant="tertiary"
+              disabled={!isSignedIn}
 
-        {isSignedIn ? (
-          <ButtonNextStep
-            variant="primary"
-          >
-            Próximo passo
-            <ArrowRight size={20} />
-          </ButtonNextStep>
-        ) : (
-          <ButtonNextStep
-            variant="tertiary"
-            disabled={!isSignedIn}
+            >
+              Próximo passo
+              <ArrowRight size={20} />
+            </ButtonNextStep>
+          )}
 
-          >
-            Próximo passo
-            <ArrowRight size={20} />
-          </ButtonNextStep>
-        )}
-
-      </Box>
-    </Container>
+        </Box>
+      </Container>
+    </>
   )
 }

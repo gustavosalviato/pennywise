@@ -3,34 +3,37 @@ import LogoImg from '../assets/logo.svg'
 import PreviewImage from '../assets/preview.png'
 import Image from 'next/image'
 import { ClaimUserNameForm } from "@/components/ClaimUserNameForm";
-
+import { NextSeo } from 'next-seo'
 export default function Home() {
 
   return (
-    <HomeContainer>
-      <HeroContainer>
-        <Image
-          src={LogoImg}
-          alt=""
-          priority
-        />
+    <>
+    <NextSeo title="Se torne sábio sobre seu gastos | PennyWise"/>
+      <HomeContainer>
+        <HeroContainer>
+          <Image
+            src={LogoImg}
+            alt=""
+            priority
+          />
 
-        <p>Se torne sábio nos seus gastos e comece a economizar dinheiro,
-          gerencie seus gastos de maneira simples e eficiente.</p>
+          <p>Se torne sábio nos seus gastos e comece a economizar dinheiro,
+            gerencie seus gastos de maneira simples e eficiente.</p>
 
-        <ClaimUserNameForm />
+          <ClaimUserNameForm />
 
-      </HeroContainer>
+        </HeroContainer>
 
-      <ImagePreview>
-        <Image
-          src={PreviewImage}
-          alt=""
-          quality={100}
-          priority
-          height={400}
-        />
-      </ImagePreview>
-    </HomeContainer >
+        <ImagePreview>
+          <Image
+            src={PreviewImage}
+            alt=""
+            quality={100}
+            priority
+            height={400}
+          />
+        </ImagePreview>
+      </HomeContainer >
+    </>
   )
 }
