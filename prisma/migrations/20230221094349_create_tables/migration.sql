@@ -53,7 +53,7 @@ CREATE TABLE "Transaction" (
     "title" TEXT NOT NULL,
     "price" DECIMAL NOT NULL,
     "type" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL,
+    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "user_id" TEXT NOT NULL,
     "category_id" TEXT NOT NULL,
     CONSTRAINT "Transaction_category_id_fkey" FOREIGN KEY ("category_id") REFERENCES "Category" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
