@@ -32,10 +32,12 @@ export default function Register() {
     const { name, username } = data
 
     try {
-      await api.post('/register', {
+      const reponse = await api.post('/register', {
         username,
         name,
       })
+
+      console.log(reponse.data)
 
       await router.push('/register/connect')
       

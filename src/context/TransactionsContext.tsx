@@ -51,7 +51,7 @@ export function TransactionContextProvider({ children }: TransactionsContextProv
   const getTransactions = useCallback(async (username: string, query = '') => {
     try {
       setIsLoading(true)
-      const response = await api.get(`/transactions/${username}/transaction`, {
+      const response = await api.get(`/transactions/${username}`, {
         params: {
           filter: query
         }
@@ -71,7 +71,7 @@ export function TransactionContextProvider({ children }: TransactionsContextProv
   async function addNewTransaction(transaction: NewTransaction, username: string) {
     const { category_id, price, title, type } = transaction
     try {
-      const response = await api.post(`/transactions/${username}/transaction`, {
+      const response = await api.post(`/transactions/${username}`, {
         price,
         title,
         type,

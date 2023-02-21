@@ -90,7 +90,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const newTransaction = {
         id: response.id,
         title: response.title,
-        price: response.price,
+        price: Number(response.price),
         type: response.type,
         created_at: response.created_at,
         user_id: response.user_id,

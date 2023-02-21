@@ -12,7 +12,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method !== 'POST') {
-    res.status(405).end()
+   return  res.status(405).end()
   }
 
   const { name, username } = UserBodyType.parse(req.body)
