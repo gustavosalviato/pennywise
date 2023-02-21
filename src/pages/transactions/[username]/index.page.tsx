@@ -20,14 +20,13 @@ interface ITransactions {
 }
 
 export default function Transactions() {
-  const { getTransactions } = UseTransactionContext()
+  const { getTransactions, isLoading } = UseTransactionContext()
 
   const session = useSession()
 
-
   useEffect(() => {
     getTransactions(String(session.data?.user?.username))
-  }, [getTransactions])
+  }, [getTransactions, session.data?.user?.username])
 
   return (
     <StyledTransactions>
@@ -35,8 +34,12 @@ export default function Transactions() {
       <Summary />
 
       <TransactionsContainer>
-        <InputSearch />
-        <TransactionsTable />
+        <InputSearch username={session.data?.user.username} />
+        
+        {isLoading ? (
+          <p>loading</p>
+        ) : <TransactionsTable />}
+
       </TransactionsContainer>
     </StyledTransactions>
   )

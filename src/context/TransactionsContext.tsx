@@ -18,7 +18,8 @@ interface ICategory {
 interface TransactionsContextType {
   transactions: ITransactions[]
   categories: ICategory[]
-  getTransactions: (username: string) => void
+  isLoading: boolean
+  getTransactions: (username: string, query?: string) => void
   addNewTransaction: (transaction: NewTransaction, username: string) => void
   addNewCategory: (category: NewCategory) => void
 }
@@ -44,11 +45,21 @@ interface TransactionsContextProviderProps {
 export function TransactionContextProvider({ children }: TransactionsContextProviderProps) {
   const [transactions, setTransactions] = useState<ITransactions[]>([])
   const [categories, setCategories] = useState<ICategory[]>([])
+  const [isLoading, setIsLoading] = useState(true)
 
 
-  const getTransactions = useCallback(async (username: string) => {
-    const response = await api.get(`/transactions/${username}/transaction`)
-    setTransactions(response.data)
+  const getTransactions = useCallback(async (username: string, query = '') => {
+    try {
+      const response = await api.get(`/transactions/${username}/transaction`, {
+        params: {
+          filter: query
+        }
+      })
+      setTransactions(response.data)
+    } finally {
+      setIsLoading(false)
+    }
+
   }, [])
 
   const getCategories = useCallback(async () => {
@@ -90,7 +101,7 @@ export function TransactionContextProvider({ children }: TransactionsContextProv
   }, [getCategories])
 
   return (
-    <TransactionsContext.Provider value={{ transactions, addNewCategory, addNewTransaction, getTransactions, categories }}>
+    <TransactionsContext.Provider value={{ transactions, addNewCategory, addNewTransaction, getTransactions, categories, isLoading }}>
       {children}
     </TransactionsContext.Provider>
   )

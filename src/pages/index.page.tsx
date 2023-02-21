@@ -16,7 +16,7 @@ export default function Home() {
     if (session.data?.user) {
       router.push(`/transactions/${session.data.user.username}`)
     }
-  }, [session?.data?.user.username])
+  }, [session?.data?.user.username,])
 
   return (
     <HomeContainer>

@@ -20,8 +20,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   switch (req.method) {
     case 'GET':
 
+      const getFilterParams = z.object({
+        filter: z.string()
+      })
+
+      const { filter } = getFilterParams.parse(req.query)
+
       const responseTransactions = await prisma.transaction.findMany({
         where: {
+          title: {
+            contains: filter
+          },
           user_id: user.id,
         },
         include: {
