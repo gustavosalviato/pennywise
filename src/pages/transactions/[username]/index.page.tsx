@@ -11,6 +11,7 @@ import { GetServerSideProps } from "next";
 import { unstable_getServerSession } from "next-auth";
 import { buildNextAuthOptions } from '../../api/auth/[...nextauth].api'
 import { UseTransactionContext } from "@/context/TransactionsContext";
+import { Spinner } from "@/components/Spinner";
 interface ITransactions {
   title: string,
   price: number,
@@ -35,9 +36,9 @@ export default function Transactions() {
 
       <TransactionsContainer>
         <InputSearch username={session.data?.user.username} />
-        
+
         {isLoading ? (
-          <p>loading</p>
+          <Spinner />
         ) : <TransactionsTable />}
 
       </TransactionsContainer>

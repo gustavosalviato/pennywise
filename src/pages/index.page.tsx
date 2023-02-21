@@ -11,12 +11,12 @@ export default function Home() {
   const session = useSession()
 
   const router = useRouter()
-  
+
   useEffect(() => {
     if (session.data?.user) {
       router.push(`/transactions/${session.data.user.username}`)
     }
-  }, [session?.data?.user.username,])
+  }, [session?.data?.user.username])
 
   return (
     <HomeContainer>
