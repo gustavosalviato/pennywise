@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import { useEffect } from "react";
 import { api } from '../../lib/axios'
 import { NextSeo } from 'next-seo'
+import Link from "next/link";
 
 const RegisterFormSchema = z.object({
   name: z.string().min(3, { message: 'Usuário deve conter pelo menos 3 letras' }),
@@ -78,7 +79,15 @@ export default function Register() {
 
           </label>
 
+          <span>
+            Já possui um conta?
+
+            <Link href="/register/connect">
+              Sign In
+            </Link>
+          </span>
           <RegisterButton type="submit">Proximo passo</RegisterButton>
+
         </Box>
       </Container>
     </>

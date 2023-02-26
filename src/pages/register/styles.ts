@@ -14,6 +14,25 @@ export const Container = styled.div`
   margin-top: 2.4rem;
  }
 
+ >form > span{
+  display: block;
+  margin-top: 1.6rem;
+  color: ${props => props.theme["gray-400"]};;
+  font-size: 1.4rem;
+  
+
+  a{
+    color: ${props => props.theme["gray-100"]};;
+    margin-left: 0.4rem;
+    transition: 0.3s;
+
+
+    &:hover{
+      text-decoration: underline;
+    }
+  }
+ }
+
 `
 
 export const Title = styled.p`
