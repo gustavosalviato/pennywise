@@ -39,8 +39,10 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^10.0.2",
     "@types/cookie": "^0.5.1",
     "@types/styled-components": "^5.1.26",
-    "prisma": "^4.9.0"
+    "prisma": "^4.9.0",
+    "prisma-erd-generator": "^1.2.5"
   }
 }
